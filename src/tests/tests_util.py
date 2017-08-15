@@ -1,6 +1,7 @@
 from search.java.exec import GitUtil
 import unittest
 import os
+import shutil
 
 TEMP_REPOS = os.path.join("tests","temp_repos_test")
 
@@ -23,3 +24,8 @@ class GitUtilTest(unittest.TestCase):
 		
 		self.assertTrue(git_util.delete_local_repo())
 		self.assertFalse(os.path.exists(os.path.join(TEMP_REPOS,git_util.foldername)))
+		
+		try:
+			shutil.rmtree(TEMP_REPOS)
+		except:
+			pass

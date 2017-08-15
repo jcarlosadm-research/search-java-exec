@@ -24,7 +24,6 @@ class GitUtil:
 		return basename
 	
 	def clone(self,repos_folder):
-		"""clone a url to a temporary folder. Return True of False."""
 		try:
 			req = urllib.request.Request(self.url)
 			urllib.request.urlopen(req)
