@@ -1,4 +1,5 @@
 from search.java.exec import GitUtil
+from search.java.exec import JsonFile
 import unittest
 import os
 import shutil
@@ -29,3 +30,31 @@ class GitUtilTest(unittest.TestCase):
 			shutil.rmtree(TEMP_REPOS)
 		except:
 			pass
+
+class JsonFileTest(unittest.TestCase):
+	def test_load_jsonfile(self):
+		urllist = self.load_list()
+
+		for url in urllist:
+			self.assertTrue(url == "https://github.com/thm-projects/arsnova-backend.git" or \
+				url == "https://github.com/asciidoctor/asciidoctor-maven-plugin.git")
+
+	def test_size_list(self):
+		urllist = self.load_list()
+
+		self.assertEqual(len(urllist), 2)
+
+	def test_duplicates(self):
+		urllist = self.load_list()
+
+		second_list = []
+		for url in urllist:
+			self.assertTrue(url not in second_list)
+			second_list.append(url)
+
+	def load_list(self):
+		path = os.path.join("tests","repositories_test.json")
+		json_file = JsonFile(path)
+		urllist = json_file.get_urls()
+
+		return urllist
