@@ -1,5 +1,6 @@
 from search.java.exec.util import GitUtil
 from search.java.exec.util import JsonInputFile
+from search.java.exec.util import JsonProcessedUrls
 import unittest
 import os
 import shutil
@@ -58,3 +59,29 @@ class JsonInputFileTest(unittest.TestCase):
 		urllist = json_file.get_urls()
 
 		return urllist
+
+class JsonProcessedUrlsTest(unittest.TestCase):
+	def test_add_check(self):
+		url1 = "http://google.com"
+		url2 = "http://yahoo.com"
+		path = os.path.join("tests","json_processed_urls.json")
+		
+		jsonp_urls = JsonProcessedUrls(path)
+		jsonp_urls.add_url(url1)
+		jsonp_urls.add_url(url2)
+		
+		self.assertTrue(jsonp_urls.check_url(url1))
+		self.assertTrue(jsonp_urls.check_url(url2))
+		
+		os.remove(path)
+
+
+
+
+
+
+
+
+
+
+
