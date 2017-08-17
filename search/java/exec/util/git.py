@@ -3,7 +3,6 @@ from git import Repo
 import urllib.request
 import urllib.error
 import shutil
-import json
 
 class GitUtil:
 	def __init__(self,url):
@@ -42,23 +41,3 @@ class GitUtil:
 				return False
 		
 		return True
-
-class JsonFile:
-	def __init__(self, path):
-		self.path = path
-
-	def get_urls(self):
-		list = []
-		with open(self.path) as data_file:
-			data = json.load(data_file)
-
-		for item in data:
-			value = ""
-			try:
-				value = item['url']
-				if value and value not in list:
-					list.append(value)
-			except:
-				pass
-
-		return list

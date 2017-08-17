@@ -1,5 +1,5 @@
-from search.java.exec import GitUtil
-from search.java.exec import JsonFile
+from search.java.exec.util import GitUtil
+from search.java.exec.util import JsonInputFile
 import unittest
 import os
 import shutil
@@ -31,7 +31,7 @@ class GitUtilTest(unittest.TestCase):
 		except:
 			pass
 
-class JsonFileTest(unittest.TestCase):
+class JsonInputFileTest(unittest.TestCase):
 	def test_load_jsonfile(self):
 		urllist = self.load_list()
 
@@ -54,7 +54,7 @@ class JsonFileTest(unittest.TestCase):
 
 	def load_list(self):
 		path = os.path.join("tests","repositories_test.json")
-		json_file = JsonFile(path)
+		json_file = JsonInputFile(path)
 		urllist = json_file.get_urls()
 
 		return urllist

@@ -1,9 +1,4 @@
-import os
-from git import Repo
-import urllib.request
-import urllib.error
 
-REPO_FOLDER = "repos"
 
 # open json file and get urls
 
