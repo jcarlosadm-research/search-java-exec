@@ -24,13 +24,11 @@ for url in urls:
 		if git_util.clone(TEMP_REPOS_FOLDER):
 			
 			# get a list of java files in temporary folder
-
+			javafiles = FolderManager.list_of_javafiles(git_util.path)
 			
 			# run a thread for each file (limited by number of threads)
 
-				
 				# analyze imports of each file. if file ok, put in results (if not exists)
-
 			
 			jsonProcessedUrls.add_url(url)
 

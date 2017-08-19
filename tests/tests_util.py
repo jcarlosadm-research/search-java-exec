@@ -24,6 +24,7 @@ class GitUtilTest(unittest.TestCase):
 		git_util = GitUtil("https://github.com/pacampbell/Game.git")
 		
 		self.assertTrue(git_util.clone(TEMP_REPOS))
+		self.assertEqual(git_util.path,os.path.join(TEMP_REPOS,git_util.foldername))
 		self.assertTrue(os.path.exists(os.path.join(TEMP_REPOS,git_util.foldername)))
 		
 		self.assertTrue(git_util.delete_local_repo())
