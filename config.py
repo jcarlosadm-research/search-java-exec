@@ -7,7 +7,7 @@ TEMP_REPOS_FOLDER = "repos"
 
 # files
 
-INPUT_JSON_FILE = "repositories.json"
+INPUT_JSON_FILE = os.path.join("resources","repositories.json")
 PROCESSED_JSON_FILE = os.path.join(RESULT_FOLDER,"processed_urls.json")
 
 # threading

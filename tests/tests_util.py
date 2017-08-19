@@ -57,7 +57,7 @@ class JsonInputFileTest(unittest.TestCase):
 			second_list.append(url)
 
 	def load_list(self):
-		path = os.path.join("tests","repositories_test.json")
+		path = os.path.join("tests","resources","repositories_test.json")
 		json_file = JsonInputFile(path)
 		urllist = json_file.get_urls()
 
@@ -91,10 +91,15 @@ class FolderManagerTest(unittest.TestCase):
 		self.assertFalse(os.path.exists(path))
 
 	def test_list_javafiles(self):
-		filelist = FolderManager.list_of_javafiles(os.path.join("tests","repo_test_list"))
+		filelist = FolderManager.list_of_javafiles(os.path.join("tests","resources",\
+			"repo_test_list"))
 
-		self.assertTrue("tests/repo_test_list/file2.java" in filelist)
-		self.assertTrue("tests/repo_test_list/file1.java" in filelist)
-		self.assertTrue("tests/repo_test_list/folder02/file03.java" in filelist)
-		self.assertTrue("tests/repo_test_list/folder01/folder03/folder04/file05.java" in filelist)
+		self.assertTrue(os.path.join("tests","resources","repo_test_list","file2.java") \
+			in filelist)
+		self.assertTrue(os.path.join("tests","resources","repo_test_list","file1.java") \
+			in filelist)
+		self.assertTrue(os.path.join("tests","resources","repo_test_list","folder02", \
+		 	"file03.java") in filelist)
+		self.assertTrue(os.path.join("tests","resources","repo_test_list","folder01", \
+			"folder03","folder04","file05.java") in filelist)
 		self.assertTrue(len(filelist) == 4)
