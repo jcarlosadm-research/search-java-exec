@@ -24,6 +24,8 @@ for url in urls:
 
 		git_util = GitUtil(url)
 		if git_util.clone(TEMP_REPOS_FOLDER):
+
+			# TODO delete results if exists
 			
 			# get a list of java files in temporary folder
 			javafiles = FolderManager.list_of_javafiles(git_util.path)
