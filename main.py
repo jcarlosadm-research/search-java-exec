@@ -1,9 +1,11 @@
 import sys
 from config import *
+from concurrent.futures import ThreadPoolExecutor
 from search.java.exec.util import FolderManager
 from search.java.exec.util import JsonInputFile
 from search.java.exec.util import JsonProcessedUrls
 from search.java.exec.util import GitUtil
+from search.java.exec import Analyzer
 
 # make folders
 if not FolderManager.create_folder(RESULT_FOLDER) or \
@@ -27,8 +29,13 @@ for url in urls:
 			javafiles = FolderManager.list_of_javafiles(git_util.path)
 			
 			# run a thread for each file (limited by number of threads)
+			pool = ThreadPoolExecutor(max_workers = MAX_WORKERS)
+			for javafile in javafiles:
+				analyzer = Analyzer(javafile)
+				pool.submit(analyzer.store_if_eligible)
 
-				# analyze imports of each file. if file ok, put in results (if not exists)
+			# wait all threads
+			pool.shutdown(wait = True)
 			
 			jsonProcessedUrls.add_url(url)
 
