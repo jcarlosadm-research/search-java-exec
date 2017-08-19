@@ -3,6 +3,7 @@ from git import Repo
 import urllib.request
 import urllib.error
 import shutil
+from search.java.exec.util.folder import FolderManager
 
 class GitUtil:
 	def __init__(self,url):
@@ -34,10 +35,4 @@ class GitUtil:
 			return False
 	
 	def delete_local_repo(self):
-		if self.path and os.path.exists(self.path):
-			try:
-				shutil.rmtree(self.path)
-			except:
-				return False
-		
-		return True
+		return FolderManager.delete_folder_recursive(self.path)

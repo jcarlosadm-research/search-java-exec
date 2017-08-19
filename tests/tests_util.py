@@ -1,6 +1,7 @@
 from search.java.exec.util import GitUtil
 from search.java.exec.util import JsonInputFile
 from search.java.exec.util import JsonProcessedUrls
+from search.java.exec.util import FolderManager
 import unittest
 import os
 import shutil
@@ -75,13 +76,14 @@ class JsonProcessedUrlsTest(unittest.TestCase):
 		
 		os.remove(path)
 
+class FolderManagerTest(unittest.TestCase):
+	def test_create_and_delete(self):
+		path = os.path.join("tests","foldertest")
 
+		self.assertFalse(os.path.exists(path))
 
+		FolderManager.create_folder(path)
+		self.assertTrue(os.path.exists(path))
 
-
-
-
-
-
-
-
+		FolderManager.delete_folder_recursive(path)
+		self.assertFalse(os.path.exists(path))
