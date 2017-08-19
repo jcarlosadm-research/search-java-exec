@@ -5,5 +5,5 @@ class Analyzer:
 		self.filepath = filepath
 
 	def store_if_eligible(self):
-		# TODO analyze imports of file. if file ok, put in results (if not exists)
+		# TODO: analyze imports of file. if file ok, put in results (if not exists)
 		pass
