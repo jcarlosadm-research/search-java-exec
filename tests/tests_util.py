@@ -7,6 +7,7 @@ import os
 import shutil
 
 TEMP_REPOS = os.path.join("tests","temp_repos_test")
+TEMP_REPOS2 = os.path.join("tests","temp_repos_test2")
 
 class GitUtilTest(unittest.TestCase):
 	def test_folder_name(self):
@@ -87,3 +88,12 @@ class FolderManagerTest(unittest.TestCase):
 
 		FolderManager.delete_folder_recursive(path)
 		self.assertFalse(os.path.exists(path))
+
+	def test_list_javafiles(self):
+		filelist = FolderManager.list_of_javafiles(os.path.join("tests","repo_test_list"))
+
+		self.assertTrue("tests/repo_test_list/file2.java" in filelist)
+		self.assertTrue("tests/repo_test_list/file1.java" in filelist)
+		self.assertTrue("tests/repo_test_list/folder02/file03.java" in filelist)
+		self.assertTrue("tests/repo_test_list/folder01/folder03/folder04/file05.java" in filelist)
+		self.assertTrue(len(filelist) == 4)

@@ -18,3 +18,14 @@ class FolderManager:
 				return False
 		
 		return True
+
+	def list_of_javafiles(path_dir):
+		files = []
+		try:
+			for dirpath, dirnames, filenames in os.walk(path_dir):
+				for filename in [f for f in filenames if f.endswith(".java")]:
+					files.append(os.path.join(dirpath, filename))
+		except:
+			pass
+
+		return files
