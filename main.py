@@ -25,16 +25,18 @@ for url in urls:
 		git_util = GitUtil(url)
 		if git_util.clone(TEMP_REPOS_FOLDER):
 
-			# TODO: delete results if exists
+			# TODO: delete results if exists (results/project)
 			
 			# get a list of java files in temporary folder
 			javafiles = FolderManager.list_of_javafiles(git_util.path)
 			
 			# run a thread for each file (limited by number of threads)
 			pool = ThreadPoolExecutor(max_workers = MAX_WORKERS)
+			number = 0
 			for javafile in javafiles:
 				analyzer = Analyzer(javafile)
-				pool.submit(analyzer.store_if_eligible)
+				pool.submit(analyzer.store_if_eligible, number)
+				number += 1
 
 			# wait all threads
 			pool.shutdown(wait = True)
