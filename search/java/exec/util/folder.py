@@ -1,4 +1,5 @@
 import os
+import glob
 import shutil
 
 class FolderManager:
@@ -18,6 +19,17 @@ class FolderManager:
 				return False
 		
 		return True
+
+	def list_of_files(path_dir,extension):
+		files = []
+		try:
+			for file in os.listdir(path_dir):
+				if file.endswith("." + extension):
+					files.append(file)
+		except:
+			pass
+
+		return files
 
 	def list_of_javafiles(path_dir):
 		files = []

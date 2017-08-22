@@ -1,20 +1,32 @@
-
+import os
+import subprocess
+import shlex
+from shutil import copyfile
+from search.java.exec.util import FolderManager
 
 class Analyzer:
-	def __init__(self,filepath):
+	def __init__(self,project_folder,filenumber,filepath):
+		self.project_folder = project_folder
+		self.filenumber = filenumber
 		self.filepath = filepath
+		self.filename = os.path.basename(filepath)
 
-	def store_if_eligible(self,fileNumber):
-		# TODO: analyze imports of file. if file ok, put in results (if not exists)
+	def store_if_eligible(self):
 
-		# file is ok
-		# open file
-		# line by line:
-		#	if contains import:
-		#		check: if import is not default library, halt and file is not ok
-		# if file ok:
-		#	copy file to results (results/project/file+fileNumber(four digits format)/file.java)
+		#	copy file to results
+		folder = os.path.join(self.project_folder,str(self.filenumber))
+		FolderManager.create_folder(folder)
+		copyfile(self.filepath,os.path.join(folder,self.filename))
+
 		#	try to compile file
-		#	if not compile:
-		#		delete folder (results/project/file+fileNumber(four digits format))
-		pass
+		cmd = 'javac ' + os.path.join(folder,self.filename)
+		proc = subprocess.Popen(shlex.split(cmd), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+		stdout, stderr = proc.communicate()
+
+		listOfClassFiles = FolderManager.list_of_files(folder,"class")
+
+		if not listOfClassFiles:
+			FolderManager.delete_folder_recursive(folder)
+		else:
+			for classFile in listOfClassFiles:
+				os.remove(os.path.join(folder,classFile))

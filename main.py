@@ -1,4 +1,6 @@
 import sys
+import string
+import random
 from config import *
 from concurrent.futures import ThreadPoolExecutor
 from search.java.exec.util import FolderManager
@@ -25,7 +27,9 @@ for url in urls:
 		git_util = GitUtil(url)
 		if git_util.clone(TEMP_REPOS_FOLDER):
 
-			# TODO: delete results if exists (results/project)
+			# delete and recriate results
+			FolderManager.delete_folder_recursive(os.path.join(RESULT_FOLDER,git_util.foldername))
+			FolderManager.create_folder(os.path.join(RESULT_FOLDER,git_util.foldername))
 			
 			# get a list of java files in temporary folder
 			javafiles = FolderManager.list_of_javafiles(git_util.path)
@@ -34,13 +38,18 @@ for url in urls:
 			pool = ThreadPoolExecutor(max_workers = MAX_WORKERS)
 			number = 0
 			for javafile in javafiles:
-				analyzer = Analyzer(javafile)
-				pool.submit(analyzer.store_if_eligible, number)
+				analyzer = Analyzer(os.path.join(RESULT_FOLDER,git_util.foldername),number,javafile)
+				pool.submit(analyzer.store_if_eligible)
 				number += 1
 
 			# wait all threads
 			pool.shutdown(wait = True)
 			
 			jsonProcessedUrls.add_url(url)
+			
+			# rename result folder
+			os.rename(os.path.join(RESULT_FOLDER,git_util.foldername), \
+				os.path.join(RESULT_FOLDER,git_util.foldername + \
+					''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))))
 
 		git_util.delete_local_repo()
