@@ -99,3 +99,8 @@ ENV/
 
 # mypy
 .mypy_cache/
+
+/repos/
+/tests/temp_repos_test/
+/results/
+/resources/
