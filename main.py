@@ -25,9 +25,10 @@ for url in urls:
 	if not jsonProcessedUrls.check_url(url):
 
 		git_util = GitUtil(url)
+		print("cloning " + url)
 		if git_util.clone(TEMP_REPOS_FOLDER):
 
-			# delete and recriate results
+			# delete and recreate results
 			FolderManager.delete_folder_recursive(os.path.join(RESULT_FOLDER,git_util.foldername))
 			FolderManager.create_folder(os.path.join(RESULT_FOLDER,git_util.foldername))
 			
@@ -51,5 +52,8 @@ for url in urls:
 			os.rename(os.path.join(RESULT_FOLDER,git_util.foldername), \
 				os.path.join(RESULT_FOLDER,git_util.foldername + \
 					''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(6))))
-
+		else:
+			print("error to clone " + url)
 		git_util.delete_local_repo()
+
+print("finished")
