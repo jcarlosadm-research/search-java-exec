@@ -109,3 +109,7 @@ Run:
 ```terminal
 deactivate
 ```
+
+## second_filter.py
+
+This filter remove some files with invalid imports and with useless methods (methods without minimal statements). To work, you need to have one folder "results" (with results of previous algorithms) and other folder "output" (to receive valid files).
