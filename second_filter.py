@@ -11,7 +11,8 @@ OUTPUT_FOLDER = "output"
 INVALID_IMPORTS = {
 	"javax.swing",
 	"java.awt",
-	"org.openqa.selenium"
+	"org.openqa.selenium",
+	"javafx"
 }
 
 # TODO: add more conditions
@@ -59,33 +60,33 @@ for folder in dirs:
 								class_declr_list.append(type)
 
 						for class_declr in class_declr_list:
-							for method in class_declr.methods:
-								#print(dir(method))
-								#print(method.position)
-								#print(method.name)
-								#for stat in method.body:
-									#print(dir(stat))
-								#	print(stat.expression.attrs)
-								# print(method.body)
-								if (str(method.body) != "None") and len(method.body) > 0:
-									minimal_exp = False
-									for stat in method.body:
-										if str(stat) == "ReturnStatement":
-											minimal_exp = True
-										elif str(stat) == "StatementExpression" and \
-										 str(stat.expression) == "Assignment":
-											minimal_exp = True
+							public_and_nonvoid_notiny_method = False
+							public_attr = False
 
-									if (not minimal_exp) or (len(method.body) > 1):
-										#print(method.body)
-										#time.sleep(5)
-										if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder)):
-											os.makedirs(os.path.join(OUTPUT_FOLDER,folder))
-										if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder,subfolder)):
-											os.makedirs(os.path.join(OUTPUT_FOLDER,folder,subfolder))
-										copyfile(os.path.join(RESULTS_FOLDER,folder,subfolder,file), \
-											os.path.join(OUTPUT_FOLDER,folder,subfolder,file))
-										count+=1
+							for method in class_declr.methods:
+								if public_and_nonvoid_notiny_method == False and len(method.modifiers) > 0 and \
+									("public" in method.modifiers) and str(method.return_type) != "None" and \
+									(str(method.body) != "None") and len(method.body) > 1:
+									stat = method.body[0]
+									if str(stat) != "ReturnStatement":
+										public_and_nonvoid_notiny_method = True
+
+							if public_attr == False and len(class_declr.fields) > 0:
+								for field in class_declr.fields:
+									if "public" in field.modifiers:
+										public_attr = True
+
+							if public_and_nonvoid_notiny_method or public_attr:
+								break
+
+						if public_and_nonvoid_notiny_method or public_attr:
+							if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder)):
+								os.makedirs(os.path.join(OUTPUT_FOLDER,folder))
+							if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder,subfolder)):
+								os.makedirs(os.path.join(OUTPUT_FOLDER,folder,subfolder))
+							copyfile(os.path.join(RESULTS_FOLDER,folder,subfolder,file), \
+								os.path.join(OUTPUT_FOLDER,folder,subfolder,file))
+							count+=1
 					except:
 						pass
 print("number of programs: " + str(count))
