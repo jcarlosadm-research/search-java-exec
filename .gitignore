@@ -103,6 +103,7 @@ ENV/
 /repos/
 /tests/temp_repos_test/
 /results/
+/output/
 /resources/
 
 /.idea/
