@@ -3,6 +3,7 @@ import os
 import shutil
 import time
 from shutil import copyfile
+import pygount
 
 RESULTS_FOLDER = "results"
 OUTPUT_FOLDER = "output"
@@ -29,6 +30,7 @@ dirs = next(os.walk(RESULTS_FOLDER))[1]
 count = 0
 
 for folder in dirs:
+	bigger_file = None
 	listdirs = next(os.walk(os.path.join(RESULTS_FOLDER, folder)))[1]
 	if not listdirs:
 		shutil.rmtree(os.path.join(RESULTS_FOLDER, folder))
@@ -41,12 +43,14 @@ for folder in dirs:
 				for file in files:
 					content = ""
 					invalid = False
+					n_lines = pygount.source_analysis(os.path.join(RESULTS_FOLDER, folder, subfolder, file),'').code
 					with open(os.path.join(RESULTS_FOLDER, folder, subfolder, file), 'r') as f:
 						for line in f:
 							if is_invalid_line(line):
 								invalid = True
 								break
 							content += line
+							n_lines += 1
 
 					if invalid:
 						continue
@@ -87,6 +91,21 @@ for folder in dirs:
 							copyfile(os.path.join(RESULTS_FOLDER,folder,subfolder,file), \
 								os.path.join(OUTPUT_FOLDER,folder,subfolder,file))
 							count+=1
+
+							if (bigger_file == None) or (n_lines > bigger_file['lines']):
+								bigger_file = {"path": os.path.join(OUTPUT_FOLDER,folder,subfolder,file),
+																"lines": n_lines,
+																"subfolder":subfolder,
+																"file": file}
 					except:
 						pass
+	if bigger_file != None:
+		if not os.path.exists(os.path.join("out2",folder)):
+			os.makedirs(os.path.join("out2",folder))
+		if not os.path.exists(os.path.join("out2",folder,bigger_file["subfolder"])):
+			os.makedirs(os.path.join("out2",folder,bigger_file["subfolder"]))
+		copyfile(bigger_file["path"], \
+							os.path.join("out2",folder,bigger_file["subfolder"],
+								bigger_file["file"]))
+
 print("number of programs: " + str(count))

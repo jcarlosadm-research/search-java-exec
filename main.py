@@ -4,7 +4,7 @@ import random
 from config import *
 from concurrent.futures import ThreadPoolExecutor
 from search.java.exec.util import FolderManager
-from search.java.exec.util import JsonInputFile
+from search.java.exec.util import GithubSearch
 from search.java.exec.util import JsonProcessedUrls
 from search.java.exec.util import GitUtil
 from search.java.exec import Analyzer
@@ -16,8 +16,16 @@ if not FolderManager.create_folder(RESULT_FOLDER) or \
 	sys.exit()
 
 # open json file and get urls
-jsonInputFile = JsonInputFile(INPUT_JSON_FILE)
-urls = jsonInputFile.get_urls()
+#jsonInputFile = JsonInputFile(INPUT_JSON_FILE)
+#urls = jsonInputFile.get_urls()
+
+# get urls with github search
+token = None
+with open(TOKEN_FILE, 'r') as f:
+	token = f.readline().rstrip().lstrip()
+gs = GithubSearch("", "stars", "desc", token, "Java", "false")
+urls = gs.search_repos()
+
 
 # for each url not in db do clone(url)
 jsonProcessedUrls = JsonProcessedUrls(PROCESSED_JSON_FILE)

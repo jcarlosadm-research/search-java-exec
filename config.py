@@ -13,3 +13,7 @@ PROCESSED_JSON_FILE = os.path.join(RESULT_FOLDER,"processed_urls.json")
 # threading
 
 MAX_WORKERS = 3
+
+# file with github token
+
+TOKEN_FILE = "token"
