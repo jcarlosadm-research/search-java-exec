@@ -33,7 +33,7 @@ class Analyzer:
 		print("   file " + os.path.join(folder, self.filename),end="")
 		if not listOfClassFiles:
 			FolderManager.delete_folder_recursive(folder)
-			print(": not OK")
+			print(f': {Fore.RED}not OK{Style.RESET_ALL}')
 		else:
 			for classFile in listOfClassFiles:
 				os.remove(os.path.join(folder,classFile))
