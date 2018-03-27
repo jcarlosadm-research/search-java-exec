@@ -105,5 +105,6 @@ ENV/
 /results/
 /output/
 /resources/
+token
 
 /.idea/

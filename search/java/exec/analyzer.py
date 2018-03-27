@@ -4,6 +4,8 @@ import shlex
 from shutil import copyfile
 from search.java.exec.util import FolderManager
 from search.java.exec.ast import JavaAst
+from colorama import Fore
+from colorama import Style
 
 class Analyzer:
 	def __init__(self,project_folder,filenumber,filepath):
@@ -39,6 +41,6 @@ class Analyzer:
 			javaAst = JavaAst(os.path.join(folder,self.filename))
 			if not javaAst.is_valid():
 				FolderManager.delete_folder_recursive(folder)
-				print(": not OK")
+				print(f': {Fore.RED}not OK{Style.RESET_ALL}')
 			else:
-				print(": OK")
+				print(f': {Fore.GREEN}OK{Style.RESET_ALL}')
