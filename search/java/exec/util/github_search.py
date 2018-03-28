@@ -6,21 +6,18 @@ import sys
 import os
 
 class GithubSearch:
-	def __init__(self, query, sort, order, token, language, contains_fork):
-		self.query = query
-		self.sort = sort
-		self.order = order
+	def __init__(self, token):
 		self.token = token
-		self.language = language
-		self.contains_fork = contains_fork
 
-	def search_repos(self):
+	# TODO: now, max_results is useless. this search always returns 1000 results or less
+	# implement for cases: stars, created_at, updated_at
+	def search_repos(self, query, sort, order, language, contains_fork, max_results):
 		urls = []
 
 		github_obj = Github(self.token)
 
-		results = github_obj.search_repositories(self.query, sort=self.sort,
-			order=self.order, language=self.language, fork=self.contains_fork)
+		results = github_obj.search_repositories(query, sort=sort,
+			order=order, language=language, fork=contains_fork)
 		total = results.totalCount
 		if total > 1000:
 			total = 1000
