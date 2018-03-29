@@ -15,7 +15,7 @@ The results will be a collection of folders, each them a project. For each proje
 This project needs a java compiler installed, with a **javac** tool. Make sure to have this on system path.
 
 This works with Python 3. Therefore, install more recent **python 3.x** interpreter. And make sure to have **pip** tool available (in windows, this comes with more recent interpreter; in linux, install **python-pip**). In linux, **python-dev** is recomended.
-
+w
 With **pip** tool, install (in ubuntu, use "sudo" before each command):
 ```terminal
 pip install virtualenv --upgrade
