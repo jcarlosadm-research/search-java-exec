@@ -13,7 +13,8 @@ INVALID_IMPORTS = {
     "javax.swing",
     "java.awt",
     "org.openqa.selenium",
-    "javafx"
+    "javafx",
+    "java.io"
 }
 
 # TODO: add more conditions
