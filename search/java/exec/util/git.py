@@ -14,11 +14,11 @@ class GitUtil:
     def build_foldername(self):
         basename = self.url
         
-        index = basename.rfind('/') + 1;
+        index = basename.rfind('/') + 1
         if index != -1:
             basename = self.url[index:]
         
-        index = basename.find('.');
+        index = basename.find('.')
         if index != -1:
             basename = basename[:index]
         
