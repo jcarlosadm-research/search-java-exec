@@ -85,12 +85,21 @@ for folder in dirs:
                             if str(type) == "ClassDeclaration":
                                 class_declr_list.append(type)
 
+                        valid_method = False
+                        #public_attr = False
                         for class_declr in class_declr_list:
-                            # public, non void, no tiny and has valid parameters
-                            valid_method = False
-                            public_attr = False
-
+                            
                             for method in class_declr.methods:
+                                if len(method.modifiers) > 0 and ("public" in method.modifiers):
+                                    if str(method.return_type) != "None" and \
+                                        (str(method.body) != "None") and len(method.body) > 1 and \
+                                        valid_params(method.parameters):
+                                        valid_method = True
+                                    else:
+                                        valid_method = False
+                                        break
+
+                                '''
                                 if valid_method == False and len(method.modifiers) > 0 and \
                                     ("public" in method.modifiers) and str(method.return_type) != "None" and \
                                     (str(method.body) != "None") and len(method.body) > 1 and \
@@ -98,7 +107,10 @@ for folder in dirs:
                                     stat = method.body[0]
                                     if str(stat) != "ReturnStatement":
                                         valid_method = True
-
+                                '''
+                            if valid_method == False:
+                                break
+                            '''
                             if public_attr == False and len(class_declr.fields) > 0:
                                 for field in class_declr.fields:
                                     if "public" in field.modifiers:
@@ -106,8 +118,9 @@ for folder in dirs:
 
                             if valid_method or public_attr:
                                 break
+                            '''
 
-                        if valid_method or public_attr:
+                        if valid_method:# or public_attr:
                             if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder)):
                                 os.makedirs(os.path.join(OUTPUT_FOLDER,folder))
                             if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder,subfolder)):
