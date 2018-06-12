@@ -12,7 +12,7 @@ from search.java.exec.util import GithubSearch
 # get token file
 token = None
 with open(GITHUB_TOKEN_FILE, 'r') as f:
-	token = f.readline().strip()
+    token = f.readline().strip()
 
 # get urls with github search
 gs = GithubSearch(token)
