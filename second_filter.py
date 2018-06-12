@@ -17,12 +17,33 @@ INVALID_IMPORTS = {
     "java.io"
 }
 
+VALID_PARAMS_TYPE = {
+    "String",
+    "Byte",
+    "Short",
+    "Integer",
+    "Long",
+    "Float",
+    "Double",
+    "Character",
+    "Boolean"
+}
+
 # TODO: add more conditions
 def is_invalid_line(line):
     for inv_import in INVALID_IMPORTS:
         if inv_import in line:
             return True
     return False
+
+def valid_params(parameters):
+    for parameter in parameters:
+        if parameter.type != "BasicType" and parameter.type == "ReferenceType":
+            if parameter.type.name not in VALID_PARAMS_TYPE:
+                return False
+        elif parameter.type != "BasicType":
+            return False
+    return True
 
 if not os.path.exists(OUTPUT_FOLDER):
     os.makedirs(OUTPUT_FOLDER)
@@ -64,27 +85,42 @@ for folder in dirs:
                             if str(type) == "ClassDeclaration":
                                 class_declr_list.append(type)
 
+                        valid_method = False
+                        #public_attr = False
                         for class_declr in class_declr_list:
-                            public_and_nonvoid_notiny_method = False
-                            public_attr = False
-
+                            
                             for method in class_declr.methods:
-                                if public_and_nonvoid_notiny_method == False and len(method.modifiers) > 0 and \
+                                if len(method.modifiers) > 0 and ("public" in method.modifiers):
+                                    if str(method.return_type) != "None" and \
+                                        (str(method.body) != "None") and len(method.body) > 1 and \
+                                        valid_params(method.parameters):
+                                        valid_method = True
+                                    else:
+                                        valid_method = False
+                                        break
+
+                                '''
+                                if valid_method == False and len(method.modifiers) > 0 and \
                                     ("public" in method.modifiers) and str(method.return_type) != "None" and \
-                                    (str(method.body) != "None") and len(method.body) > 1:
+                                    (str(method.body) != "None") and len(method.body) > 1 and \
+                                    valid_params(method.parameters):
                                     stat = method.body[0]
                                     if str(stat) != "ReturnStatement":
-                                        public_and_nonvoid_notiny_method = True
-
+                                        valid_method = True
+                                '''
+                            if valid_method == False:
+                                break
+                            '''
                             if public_attr == False and len(class_declr.fields) > 0:
                                 for field in class_declr.fields:
                                     if "public" in field.modifiers:
                                         public_attr = True
 
-                            if public_and_nonvoid_notiny_method or public_attr:
+                            if valid_method or public_attr:
                                 break
+                            '''
 
-                        if public_and_nonvoid_notiny_method or public_attr:
+                        if valid_method:# or public_attr:
                             if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder)):
                                 os.makedirs(os.path.join(OUTPUT_FOLDER,folder))
                             if not os.path.exists(os.path.join(OUTPUT_FOLDER,folder,subfolder)):

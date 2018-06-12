@@ -33,7 +33,7 @@ class Analyzer:
         print("   file " + os.path.join(folder, self.filename),end="")
         if not listOfClassFiles:
             FolderManager.delete_folder_recursive(folder)
-            print(f': {Fore.RED}not OK{Style.RESET_ALL}')
+            print(": {}not OK{}".format(Fore.RED, Style.RESET_ALL))
         else:
             for classFile in listOfClassFiles:
                 os.remove(os.path.join(folder,classFile))
@@ -41,6 +41,6 @@ class Analyzer:
             javaAst = JavaAst(os.path.join(folder,self.filename))
             if not javaAst.is_valid():
                 FolderManager.delete_folder_recursive(folder)
-                print(f': {Fore.RED}not OK{Style.RESET_ALL}')
+                print(": {}not OK{}".format(Fore.RED, Style.RESET_ALL))
             else:
-                print(f': {Fore.GREEN}OK{Style.RESET_ALL}')
+                print(": {}OK{}".format(Fore.GREEN, Style.RESET_ALL))
