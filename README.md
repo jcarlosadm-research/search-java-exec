@@ -3,11 +3,9 @@
 This project search executables java files in java projects. To work, this application get a json file with an array of urls, like this:
 
 ```json
-[
-{"url": "https://github.com/aaaaa/bbbbb.git"},
-{"url": "https://github.com/fffff/dddddd.git"}
-]
+["https://github.com/aaaaa/bbbbb.git", "https://github.com/fffff/dddddd.git"]
 ```
+
 The results will be a collection of folders, each them a project. For each project folder, there should exists one folder per java file thats compile without errors. Beyond that, each file must have at least a non-empty class with at least a non-empty method.
 
 ## Requirements
@@ -109,3 +107,7 @@ Run:
 ```terminal
 deactivate
 ```
+
+## second_filter.py
+
+This filter remove some files with invalid imports and with useless methods (methods without minimal statements). To work, you need to have one folder "results" (with results of previous algorithms) and other folder "output" (to receive valid files).

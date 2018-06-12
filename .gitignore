@@ -103,6 +103,11 @@ ENV/
 /repos/
 /tests/temp_repos_test/
 /results/
+/output/
+/out2/
 /resources/
+token
+github_search.json
 
 /.idea/
+/.vscode/
