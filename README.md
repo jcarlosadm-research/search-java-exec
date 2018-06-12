@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/jcarlosadm-research/search-java-exec.svg?branch=master)](https://travis-ci.org/jcarlosadm-research/search-java-exec)
+
 # **search-java-exec**
 --------------------
 
