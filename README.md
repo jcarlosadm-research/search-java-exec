@@ -1,4 +1,5 @@
 # **search-java-exec**
+--------------------
 
 This project search executables java files in java projects. To work, this application get a json file with an array of urls, like this:
 
